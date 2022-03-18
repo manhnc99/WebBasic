@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  mysql_db:
+    image: "mysql:8.0"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=shopdoda
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_TCP_PORT=3306
+    volumes: 
+      - mysql-data:/var/lib/mysql
+      - ./shopdoda.sql:/docker-entrypoint-initdb.d/init.sql
+  web:
+    image: wada-spring:latest
+    ports:
+      - "8005:9090"
+    depends_on: 
+      - mysql_db
+volumes: 
+  mysql-data:
